@@ -1,0 +1,55 @@
+{
+  "$schema": "https://gftd.ai/schemas/gftd.json",
+  "name": "example-api",
+  "nanoid": "api5678y",
+  "type": "web",
+  "org": "example",
+  "project": "demo",
+  "routes": [
+    {
+      "host": "api.example.performers.gftd.ai",
+      "path": "/",
+      "port": 8080,
+      "tls": true
+    }
+  ],
+  "healthCheck": {
+    "liveness": {
+      "path": "/healthz"
+    },
+    "readiness": {
+      "path": "/readyz"
+    }
+  },
+  "resources": {
+    "cpu": "100m",
+    "memory": "64Mi"
+  },
+  "env": {
+    "production": {
+      "scaling": {
+        "min": 1,
+        "max": 5,
+        "targetValue": 80
+      }
+    }
+  },
+  "build": {
+    "backend": "kaniko",
+    "mainPkg": "./cmd/server"
+  },
+  "dapr": {
+    "appPort": 8080,
+    "appProtocol": "http"
+  },
+  "dependencies": [
+    {
+      "name": "user-actor",
+      "type": "actor",
+      "appId": "act9012z",
+      "actorType": "UserActor",
+      "namespace": "gftd-example-demo",
+      "required": false
+    }
+  ]
+}

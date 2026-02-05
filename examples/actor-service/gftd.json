@@ -1,0 +1,45 @@
+{
+  "$schema": "https://gftd.ai/schemas/gftd.json",
+  "name": "example-actors",
+  "nanoid": "act9012z",
+  "type": "actor",
+  "org": "example",
+  "project": "demo",
+  "healthCheck": {
+    "liveness": {
+      "path": "/healthz"
+    },
+    "readiness": {
+      "path": "/readyz"
+    }
+  },
+  "resources": {
+    "cpu": "200m",
+    "memory": "256Mi"
+  },
+  "env": {
+    "production": {
+      "scaling": {
+        "min": 2,
+        "max": 10,
+        "targetValue": 70
+      }
+    }
+  },
+  "build": {
+    "backend": "kaniko",
+    "mainPkg": "./cmd/actors"
+  },
+  "dapr": {
+    "appPort": 50051,
+    "appProtocol": "grpc",
+    "actors": {
+      "types": ["UserActor", "SessionActor", "CartActor"],
+      "idleTimeout": "1h",
+      "drainTimeout": "30s",
+      "reentrancyMax": 32,
+      "remindersStoragePartitions": 7
+    },
+    "stateStore": "shared"
+  }
+}

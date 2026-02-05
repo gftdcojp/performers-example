@@ -1,0 +1,60 @@
+{
+  "$schema": "https://gftd.ai/schemas/gftd.json",
+  "name": "example-worker",
+  "nanoid": "wrk3456a",
+  "type": "worker",
+  "org": "example",
+  "project": "demo",
+  "healthCheck": {
+    "liveness": {
+      "path": "/healthz"
+    },
+    "readiness": {
+      "path": "/readyz"
+    }
+  },
+  "resources": {
+    "cpu": "100m",
+    "memory": "128Mi"
+  },
+  "env": {
+    "production": {
+      "scaling": {
+        "min": 1,
+        "max": 5,
+        "targetValue": 80
+      }
+    }
+  },
+  "build": {
+    "backend": "kaniko",
+    "mainPkg": "./cmd/worker"
+  },
+  "dapr": {
+    "appPort": 8080,
+    "appProtocol": "http",
+    "pubsub": "shared"
+  },
+  "dependencies": [
+    {
+      "name": "api-backend",
+      "type": "service",
+      "appId": "api5678y",
+      "namespace": "gftd-example-demo",
+      "required": true
+    },
+    {
+      "name": "user-events",
+      "type": "pubsub",
+      "topic": "user-events",
+      "pubsubName": "shared-pubsub",
+      "required": true
+    },
+    {
+      "name": "job-state",
+      "type": "state",
+      "stateStore": "shared-statestore",
+      "required": true
+    }
+  ]
+}

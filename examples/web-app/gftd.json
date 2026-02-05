@@ -1,0 +1,40 @@
+{
+  "$schema": "https://gftd.ai/schemas/gftd.json",
+  "name": "example-web-app",
+  "nanoid": "web1234x",
+  "type": "web",
+  "org": "example",
+  "project": "demo",
+  "routes": [
+    {
+      "host": "example-app.performers.gftd.ai",
+      "path": "/",
+      "port": 3000,
+      "tls": true
+    }
+  ],
+  "healthCheck": {
+    "liveness": {
+      "path": "/api/health"
+    },
+    "readiness": {
+      "path": "/api/health"
+    }
+  },
+  "resources": {
+    "cpu": "100m",
+    "memory": "128Mi"
+  },
+  "env": {
+    "production": {
+      "scaling": {
+        "min": 2,
+        "max": 5,
+        "targetValue": 80
+      }
+    }
+  },
+  "build": {
+    "backend": "kaniko"
+  }
+}

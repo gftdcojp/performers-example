@@ -1,0 +1,91 @@
+{
+  "$schema": "https://gftd.ai/schemas/gftd.json",
+  "name": "example-agent",
+  "nanoid": "agt7890b",
+  "type": "agent",
+  "org": "example",
+  "project": "demo",
+  "routes": [
+    {
+      "host": "agent.example.performers.gftd.ai",
+      "path": "/",
+      "port": 8080,
+      "tls": true
+    }
+  ],
+  "healthCheck": {
+    "liveness": {
+      "path": "/healthz"
+    },
+    "readiness": {
+      "path": "/readyz"
+    }
+  },
+  "resources": {
+    "cpu": "200m",
+    "memory": "256Mi"
+  },
+  "env": {
+    "production": {
+      "scaling": {
+        "min": 1,
+        "max": 5,
+        "targetValue": 70
+      }
+    }
+  },
+  "build": {
+    "backend": "kaniko",
+    "mainPkg": "./cmd/agent"
+  },
+  "dapr": {
+    "appPort": 8080,
+    "appProtocol": "http",
+    "agents": {
+      "types": ["AssistantAgent", "ResearchAgent"],
+      "llmComponent": "llm",
+      "llmModel": "anthropic/claude-3.5-sonnet",
+      "memoryStore": "agent-memory",
+      "workflowStore": "agent-workflow",
+      "maxSteps": 10,
+      "idleTimeout": "30m",
+      "drainTimeout": "60s",
+      "mcp": {
+        "enabled": true,
+        "port": 8081,
+        "expose": true,
+        "allowOrigins": ["https://performers.gftd.ai"]
+      },
+      "tools": [
+        {
+          "name": "search",
+          "type": "http",
+          "description": "Search the web",
+          "config": {
+            "url": "https://api.search.com/v1/search"
+          }
+        },
+        {
+          "name": "user-lookup",
+          "type": "dapr-actor",
+          "description": "Look up user information",
+          "config": {
+            "actorType": "UserActor",
+            "method": "GetProfile"
+          }
+        }
+      ]
+    },
+    "stateStore": "shared"
+  },
+  "dependencies": [
+    {
+      "name": "user-actor",
+      "type": "actor",
+      "appId": "act9012z",
+      "actorType": "UserActor",
+      "namespace": "gftd-example-demo",
+      "required": false
+    }
+  ]
+}
