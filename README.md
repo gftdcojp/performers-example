@@ -11,7 +11,7 @@ GFTD Performers は、Kubernetes + Dapr ベースのアプリケーションプ�
 
 ```bash
 # 1. gftd CLI のインストール
-go install github.com/gftdcojp/ai-gftd-performer-sys-infra-k8s-cluster-z8k2m9n5/cmd/gftd@latest
+curl -fsSL https://performers.gftd.ai/install.sh | sh
 
 # 2. プロジェクト初期化
 gftd init
