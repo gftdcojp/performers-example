@@ -383,4 +383,4 @@ labels:
 
 ## ライセンス
 
-MIT License
+Apache License 2.0 - 詳細は [LICENSE](./LICENSE) を参照してください。
