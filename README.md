@@ -274,7 +274,7 @@ gftd delete --force
 ```json
 {
   "image": {
-    "registry": "registry.systems.gftd.dev",
+    "registry": "registry.performers.gftd.ai",
     "repository": "my-app",
     "tag": "latest"
   }
@@ -340,7 +340,7 @@ labels:
 
 ### Container Registry
 
-- **Registry**: `registry.systems.gftd.dev`
+- **Registry**: `registry.performers.gftd.ai`
 - 全てのイメージはこのレジストリに統一
 
 ### ビルド

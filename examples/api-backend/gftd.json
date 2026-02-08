@@ -3,11 +3,12 @@
   "name": "example-api",
   "nanoid": "api5678y",
   "type": "web",
-  "org": "example",
+  "stack": "go",
+  "org": "demo",
   "project": "demo",
   "routes": [
     {
-      "host": "api.example.performers.gftd.ai",
+      "host": "api.demo.performers.gftd.ai",
       "path": "/",
       "port": 8080,
       "tls": true
@@ -48,7 +49,7 @@
       "type": "actor",
       "appId": "act9012z",
       "actorType": "UserActor",
-      "namespace": "gftd-example-demo",
+      "namespace": "ai-gftd-org-demo",
       "required": false
     }
   ]
